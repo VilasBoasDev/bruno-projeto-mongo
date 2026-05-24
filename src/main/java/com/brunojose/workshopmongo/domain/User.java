@@ -15,6 +15,7 @@ public class User implements Serializable {
     private String name;
     private String email;
 
+    // Construtor padrão obrigatório para o Spring Data
     public User() {
     }
 
@@ -24,6 +25,7 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    // Getters e Setters no padrão JavaBean (camelCase com capitalização correta)
     public String getId() {
         return id;
     }
@@ -57,9 +59,7 @@ public class User implements Serializable {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         User other = (User) obj;
         return Objects.equals(id, other.id);
