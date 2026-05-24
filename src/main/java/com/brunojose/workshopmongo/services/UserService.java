@@ -20,23 +20,41 @@ public class UserService {
         return repo.findAll();
     }
 
-    // Método que faltava para buscar por ID
     public User findById(String id) {
         Optional<User> obj = repo.findById(id);
-        return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+        if (obj.isPresent()) {
+            return obj.get();
+        } else {
+            throw new ObjectNotFoundException("Objeto não encontrado");
+        }
     }
     
     public User insert(User obj) {
-    	return repo.insert(obj);
+        return repo.insert(obj);
     }
     
     public void delete(String id) {
-    	findById(id);
-    	repo.deleteById(id);
+        findById(id);
+        repo.deleteById(id);
+    }
+    
+    public User update(User obj) {
+        Optional<User> optional = repo.findById(obj.getId());
+        if (!optional.isPresent()) {
+            throw new ObjectNotFoundException("Objeto não encontrado");
+        }
+        User newObj = optional.get();
+        
+        updateData(newObj, obj);
+        return repo.save(newObj);
+    }
+    
+    private void updateData(User newObj, User obj) {
+        newObj.setName(obj.getName());
+        newObj.setEmail(obj.getEmail());
     }
     
     public User fromDTO(UserDTO objDto) {
-    	return new User(objDto.getId(), objDto.getName(), objDto.getEmail());
+        return new User(objDto.getId(), objDto.getName(), objDto.getEmail());
     }
-    
 }
