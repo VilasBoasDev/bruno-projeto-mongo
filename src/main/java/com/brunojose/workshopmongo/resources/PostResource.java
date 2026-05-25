@@ -20,34 +20,23 @@ public class PostResource {
 	@Autowired
 	private PostService service;
 	
-//	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-//	public ResponseEntity<Post> findById(@PathVariable String id){
-//		Post obj = service.findById(id);
-//		return ResponseEntity.ok().body(obj);
-//	}
+	// NOVO: Listar todos os posts
+	@GetMapping
+	public ResponseEntity<List<Post>> findAll() {
+		return ResponseEntity.ok().body(service.findAll());
+	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Post> findById(@PathVariable String id){
-	    System.out.println(">>> findById chamado com ID: " + id);
-	    Post obj = service.findById(id);
-	    return ResponseEntity.ok().body(obj);
-	}
-	
-	@GetMapping("/test")
-	public ResponseEntity<String> test() {
-	    System.out.println(">>> TESTE FUNCIONOU!");
-	    return ResponseEntity.ok("Controller funcionando!");
-	}
-	
-	@GetMapping("/ping")
-	public ResponseEntity<String> ping() {
-	    System.out.println(">>> PING FUNCIONOU! Controller está respondendo!");
-	    return ResponseEntity.ok("PONG - API está funcionando!");
-	}
-	
-	@GetMapping
-	public ResponseEntity<List<Post>> findAll() {
-	    return ResponseEntity.ok().body(service.findAll());
+		System.out.println(">>> findById chamado com ID: " + id);
+		Post obj = service.findById(id);
+		return ResponseEntity.ok().body(obj);
 	}
 
+	// Endpoint de teste (pode remover depois)
+	@GetMapping("/ping")
+	public ResponseEntity<String> ping() {
+		System.out.println(">>> PING FUNCIONOU!");
+		return ResponseEntity.ok("PONG - API está funcionando!");
+	}
 }
